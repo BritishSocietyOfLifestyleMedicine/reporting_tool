@@ -1,0 +1,95 @@
+.userTdIndex {
+    width: 40px;
+}
+
+.userTdId {
+    width: 40px;
+}
+
+.userTdTitle {
+    width: 65px;
+}
+
+.userTdDateRegistered {
+    width: 120px;
+}
+
+.userTdTelephone {
+    width: 120px;
+}
+
+.userTdProfession {
+    width: 150px;
+}
+
+.userTdMembershipType {
+    width: 120px;
+}
+
+.userTdPaidToDate {
+    width: 120px;
+}
+
+.userTdDateLastLoggedIn {
+    width: 120px;
+}
+
+.userTdEmail {
+    width: 300px;
+}
+
+.userTdFirstName {
+    width: 150px;
+}
+
+.userTdLastName {
+    width: 150px;
+}
+
+.userTdMailingAddress {
+    width: 250px;
+}
+
+.userTdUsername {
+    width: 300px;
+}
+
+.userTdCustomerId {
+    width: 350px;
+}
+
+.userTdCertType {
+    width: 250px;
+}
+
+.userTdCertDate {
+    width: 250px;
+}
+
+.paymentTdIndex {
+    width: 40px;
+}
+
+.paymentTdEmail {
+    width: 300px;
+}
+
+.paymentTdDate {
+    width: 120px;
+}
+
+.paymentTdDescription {
+    width: 500px;
+}
+
+.paymentTdAmount {
+    width: 120px;
+}
+
+.paymentTdStatus {
+    width: 150px;
+}
+
+.paymentTdFailureMessage {
+    width: 400px;
+}

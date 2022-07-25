@@ -1,0 +1,16 @@
+#loadingPage {
+    display: none;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#loading_symbol {
+    margin-top: 5%;
+    width: 30%;
+}
+
+#loading_label {
+    font-size: 40px;
+    margin-left: 40px;
+}

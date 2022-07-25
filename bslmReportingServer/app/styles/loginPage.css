@@ -1,0 +1,39 @@
+#heroLogo {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.formWrapper {
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 5px;
+    width: 100%;
+    align-items: center;
+}
+
+.wpCredsFieldWrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.wpCredsFieldWrapper .fieldWrapper {
+    width: 48%;
+}
+
+.fieldWrapper {
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 20px 0 20px 0;
+    width: 100%;
+}
+
+.oauthButtonsWrapper{
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+

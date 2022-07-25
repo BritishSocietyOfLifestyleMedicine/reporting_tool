@@ -1,0 +1,349 @@
+body {
+    margin: 0;
+    background-color: #f2f9ff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: space-around;
+    align-items: center;
+    width: 50%;
+    margin: 30px auto;
+    align-items: center;
+
+}
+
+#heroTitle {
+    font-weight: 600;
+    font-size: 30px;
+    text-align: center;
+}
+
+hr {
+    border: 0;
+	border-top: 2px solid #e3e3e3;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+	margin: 15px auto 15px auto;
+	display: block;
+	width: 95%;
+}
+
+#getUsersBtn {
+    background-color: #4CAF50;
+    width: 80%;
+    color: white;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+    height: 35px;
+    border: none;
+    cursor: pointer;
+}
+
+.halfBtn {
+    background-color: #4CAF50;
+    width: 45%;
+    color: white;
+}
+
+#rememberLoginCheckboxWrapper {
+    flex-flow: row nowrap;
+}
+
+#offline_option {
+    text-align: center;
+    color: blue;
+    cursor: pointer;
+}
+
+#showErrorInfo {
+    display: none;
+    flex-flow: column nowrap;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: red;
+}
+
+#bsTokenStatusInfo {
+    display: none;
+}
+
+#numUsersFetchedElement {
+    display: none;
+}
+
+#numPaymentsFetched {
+    display: none
+}
+
+.inputSwitchWrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 70%;
+}
+
+.inputSwitchWrapper div {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 50%;
+    height: 30px;
+    border: 1px solid black;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputSwitchGreen {
+    background-color: green;
+    color: white;
+}
+
+.inputSwitchRed {
+    background-color: red;
+    color: white;
+}
+
+.inputSwitchWhite {
+    background-color: white;
+    color: black;
+}
+
+
+.fieldWrapper label {
+    margin: 10px;
+    font-size: 20px;
+}
+
+.fieldWrapper input {
+    height: 30px;
+    font-size: 20px;
+    padding-left: 10px;
+}
+
+#progressWrapper {
+    display: none;
+    text-align: center;
+    flex-flow: column nowrap;
+}
+
+#errorWrapper {
+    display: none;
+    text-align: center;
+    color: red;
+    justify-content: center;
+    width: 80%;
+    margin-top: 40px;
+    font-size: 25px;
+}
+
+#paymentsAfterField {
+    display: none;
+}
+
+/* Table page */
+
+#pageWrapper {
+    display: none;
+    flex-flow: column nowrap;
+    height: 100vh;
+}
+
+#tabRow {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+}
+
+#tabRow div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25%;
+    height: 30px;
+    border: 1px solid black;
+}
+
+#optionsWrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 50px;
+    background-color: #f6f6f6;
+}
+
+#optionsWrapper button {
+    text-align: center;
+}
+
+#optionsButtonRow {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.optionsButtonRow button {
+    margin: 0 20px 0 20px;
+}
+
+.tableWrapper {
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    overflow-x: scroll;
+}
+
+.unoReverse {
+    height: calc(100% - 60px);
+    overflow-y: scroll;
+    direction: rtl;
+}
+
+.dynamicTableWrapper {
+    direction: ltr;
+}
+
+#userTable {
+    height: 100%;
+    width: 2500px;
+}
+
+#paymentTable {
+    height: 100%;
+    width: 2000px;
+}
+
+#susUserTable {
+    height: 100%;
+    width: 2500px;
+}
+
+#paymentsTableWrapper {
+    display: none;
+}
+
+#susUserTableWrapper {
+    display: none;
+
+}
+
+.leftScrollMargin {
+    margin-left: 17px; 
+}
+
+.tableHeader div {
+    height: 50px;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.tableRow {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.tableRow div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 2px #aaa solid;
+    padding: 5px 15px;
+    text-align: center;
+    overflow: hidden;
+}
+
+#modal {
+    /* display: none; */
+    position: fixed;
+    width: 60vw;
+    max-height: 80vh;
+    top: 10vh;
+    left: 20vw;
+    background-color: white;
+    border-radius: 10px;
+    overflow-y: scroll;
+}
+
+.modalTitle {
+    font-size: 40px;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.modalContent {
+    margin-left: 10px;
+}
+
+#modalBacksplash {
+    display: none;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: rgba(208, 208, 214, 0.8);
+}
+
+.greyRow {
+    background-color: #d5d5d5;
+}
+
+.susUserText {
+    margin: 0 0 20px 100px;
+
+}
+
+.susUserTitle {
+    font-size: 30px;
+}
+
+.susUserDescription {
+    font-size: 20px;
+}
+
+
+
+.modalPayment {
+    display: flex;
+    flex-flow: row nowrap;
+    text-align: center;
+}
+
+.modalPayment div {
+    margin: 10px;
+}
+
+
+.modalPaymentTdDate {
+    width: 100px;
+}
+
+.modalPaymentTdDescription {
+    width: 300px;
+}
+
+.modalPaymentTdAmount {
+    width: 50px;
+}
+
+.modalPaymentTdStatus {
+    width: 50px;
+}
+
+.modalPaymentTdFailureMessage {
+    width: 300px;
+}
+
+.scrollLineUp {
+    width: 23px;
+    padding: 0 !important;
+}

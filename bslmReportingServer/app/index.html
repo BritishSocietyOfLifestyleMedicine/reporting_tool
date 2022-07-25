@@ -1,0 +1,146 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>BSLM Users Database Viewer</title>
+    <meta name="description" content="BSLM Users Database Viewer">
+
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/loadingPage.css">
+    <link rel="stylesheet" href="styles/table.css">
+    <link rel="stylesheet" href="styles/loginPage.css">
+
+</head>
+
+<body>
+    <div id="loginPage" class="container">
+
+        <img id="heroLogo" src="assets/bslmlogo2k.png">
+
+        <div class="wpCredsFieldWrapper">
+            <div class="fieldWrapper">
+                <label>Username</label>
+                <input type="text" id="usernameInput">
+            </div>
+
+            <div class="fieldWrapper">
+                <label>Password</label>
+                <input type="password" id="passwordInput">
+            </div>
+
+        </div>
+
+        <div class="oauthButtonsWrapper">
+
+            <div id="getBsUsersBtn" class="btn halfBtn">Login to Brightspace</div>
+            <div id="getZoomDataBtn" class="btn halfBtn">Login to Zoom</div>
+
+        </div>
+
+        <p id="bsTokenStatusInfo"></p>
+
+        <hr>
+
+
+
+        <p id="showErrorInfo"></p>
+        <div id="getUsersBtn" class="btn">Get Users</div>
+        <div id="rememberLoginCheckboxWrapper">
+            <input id="rememberLoginCheckbox" type="checkbox" checked>
+            <label>Remember Me</label>
+        </div>
+        <p id="offline_option" onclick="showExistingData()">Click here to view existing users offline</p>
+        <div id="testButton" class="btn">test button</div>
+
+
+
+    </div>
+
+    <div id="loadingPage">
+        <img id="loading_symbol" src="assets/loading.gif" alt="loading symbol">
+        <p id="loading_label">Loading...</p>
+        <div id="progressWrapper">
+            <p id="progressUpdateInfo"></p>
+            <div id='progressUpdate'>
+                <p><span id='numUsersFetched'>0</span> users fetched so far...</p>
+                <p><span id='numPaymentsFetched'>0</span> payments fetched so far...</p>
+            </div>
+        </div>
+        <div id="errorWrapper"></div>
+    </div>
+
+
+
+    <div id="pageWrapper">
+        <div id='optionsWrapper'>
+            <div class="optionsButtonRow">
+                <button id='downloadCsvBtn'>download as CSV</button>
+            </div>
+            <div id="tabRow">
+                <div id="usersTabInput" class="inputSwitchGreen" onclick="showUserTable()">Users Tab</div>
+                <div id="paymentsTabInput" onclick="showPaymentsTable()">Payments Tab</div>
+                <div id="susTabInput" onclick="showSusUsersTable()">Sus Accounts Tab</div>
+            </div>
+            <div class="optionsButtonRow">
+                <button id="backToTopBtn" onclick="scrollToTop()">Back to top</button>
+            </div>
+        </div>
+        <div id="userTableWrapper" class="tableWrapper">
+            <div id="userTable" class="table">
+                <div id="userTableHeadings" class="leftScrollMargin"></div>
+                <div id="userScrollWrapper" class="unoReverse">
+                    <div id="userTableDynamicContent" class="dynamicTableWrapper"></div>
+                </div>
+            </div>
+        </div>
+        <div id="paymentsTableWrapper" class="tableWrapper">
+            <div id="paymentTable">
+                <div id="paymentTableHeadings" class="leftScrollMargin"></div>
+                <div id="paymentScrollWrapper" class="unoReverse">
+                    <div id="paymentsTableDynamicContent" class="dynamicTableWrapper"></div>
+                </div>
+            </div>
+        </div>
+        <div id="susUserTableWrapper" class="tableWrapper">
+            <div id="susUserTable">
+                <div id="susUserTableDynamicContent" class="dynamicTableWrapper"></div>
+            </div>
+        </div>
+        <div id="modalBacksplash" onclick="closeModal()">
+            <div id="modal" onclick="cancelClick(event)"></div>
+        </div>
+
+    </div>
+    <script src="scripts/view/templates.js"></script>
+    <script src="scripts/view/validation.js"></script>
+    <script src="scripts/view/transforms.js"></script>
+    <script src="scripts/view/view.js"></script>
+    <script src="scripts/3rdPartyIntegrations/fetchCreds.js"></script>
+    <script src="scripts/3rdPartyIntegrations/oAuth2.js"></script>
+    <script src="scripts/3rdPartyIntegrations/fetchPayments.js"></script>
+    <script src="scripts/3rdPartyIntegrations/fetchWpUsers.js"></script>
+    <script src="scripts/3rdPartyIntegrations/fetchBrightspaceUsers.js"></script>
+    <!-- <script src="scripts/3rdPartyIntegrations/bsApiShowCase.js"></script> -->
+    <script src="scripts/3rdPartyIntegrations/fetchZoomData.js"></script>
+    <script src="scripts/misc.js"></script>
+    <script src="scripts/search.js"></script>
+    <script src="scripts/downloadCSV.js"></script>
+    <script src="scripts/localStorage.js"></script>
+    <script src="scripts/dataStore.js"></script>
+    <script src="scripts/models/user.js"></script>
+    <script src="scripts/models/userList.js"></script>
+    <script src="dummyData/userList.js"></script>
+    <script src="dummyData/paymentList.js"></script>
+    <script src="scripts/index.js"></script>
+
+
+
+
+
+</body>
+
+</html>
