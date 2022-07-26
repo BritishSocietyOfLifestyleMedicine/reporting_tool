@@ -17,7 +17,7 @@ const updateStoreFile = async (storeFileList, newUserList, paymentList) => {
 
     console.log(newJsonStoreData);
 
-    writeToStoreFile(newJsonStoreData);
+    // writeToStoreFile(newJsonStoreData);
 }
 
 const getStoreFileList = async () => {

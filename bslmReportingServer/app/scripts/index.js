@@ -9,6 +9,8 @@ const main = async () => {
     //add in loading symbol for this
     const storedCredentials = await fetchCreds();
 
+    console.log(storedCredentials);
+
     const initPromises = await Promise.all([
         getStoreFileList(),
         waitForButton('getBsUsersBtn', getBsTokenEvent(storedCredentials.brightspaceAuth))

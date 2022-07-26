@@ -9,7 +9,7 @@ const getPayments = async (storedStripeCreds, paymentsAfterDate = new Date(1970)
 }
 
 const getPaymentData = async (stripeKey, paymentsAfterDate) => {
-    const fetchChargesRecur = async (startAfterId, chargesAcc, resolve, reject) => {
+    const fetchChargesRecur = async (startAfterId = '', chargesAcc = []) => {
         updatePaymentsProgress(chargesAcc.length);
         const url = startAfterId === '' ? stripeUrlBase : stripeUrlBase + `&starting_after=${startAfterId}`;
         const response = await fetch(url, {
@@ -24,13 +24,13 @@ const getPaymentData = async (stripeKey, paymentsAfterDate) => {
         })
         if (!response) return;
         const chargesResponse = await response.json();
-        if (chargesResponse.hasOwnProperty('error')) reject(appendErrMsg(chargesResponse.error, 'Incorrect Stripe key'));
-        else if (chargesResponse.data.length < 100) resolve(chargesAcc.concat(tidyPaymentData(chargesResponse.data)));
+        if (chargesResponse.hasOwnProperty('error')) throw appendErrMsg(chargesResponse.error, 'Incorrect Stripe key');
+        else if (chargesResponse.data.length < 100) return chargesAcc.concat(tidyPaymentData(chargesResponse.data));
         else if (unixTsToDate(chargesResponse.data.at(-1).created) < paymentsAfterDate)
-            resolve(chargesAcc.concat(tidyPaymentData(chargesResponse.data)));
-        else fetchChargesRecur(chargesResponse.data.at(-1).id, chargesAcc.concat(tidyPaymentData(chargesResponse.data)), resolve, reject);
+            return chargesAcc.concat(tidyPaymentData(chargesResponse.data));
+        return fetchChargesRecur(chargesResponse.data.at(-1).id, chargesAcc.concat(tidyPaymentData(chargesResponse.data)));
     }
-    return new Promise((resolve, reject) => fetchChargesRecur('', [], resolve, reject));
+    return await fetchChargesRecur();
 }
 
 const tidyPaymentData = chargesData => chargesData.map(charge => ({
