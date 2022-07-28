@@ -11,14 +11,6 @@ const getBrightspaceUsers = async (bsToken) => {
     return bsUserList;
 }
 
-const getBsTokenEvent = storedBsCreds => (resolve, reject) => {
-    try {
-        resolve(getBrightspaceToken(storedBsCreds))
-    } catch (err) {
-        reject(err);
-    }
-}
-
 const getBrightspaceToken = async storedBsCreds => {
     const brightSpaceScopeHeader = [['scope', 'core:*:* users:userdata:read enrollment:*:read grades:gradevalues:read']];
     showGettingBsToken();
@@ -62,10 +54,7 @@ const brightspaceFetch = async (authHeader, url, promiseLabel) => {
         const response = await fetch(url + bookmark, {
             method: 'GET',
             headers: authHeader
-        }).catch(err => {
-            reject(appendErrMsg(err, `Bad fetch on ${promiseLabel}`))
-            return false;
-        });
+        }).catch(err => { throw appendErrMsg(err, `Bad fetch on ${promiseLabel}`) });
 
         if (!response) throw newErrMsg(`Bad Brightspace response - ${promiseLabel}`);
         const json = await response.json();

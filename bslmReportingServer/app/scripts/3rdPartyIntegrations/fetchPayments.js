@@ -9,6 +9,7 @@ const getPayments = async (storedStripeCreds, paymentsAfterDate = new Date(1970)
 }
 
 const getPaymentData = async (stripeKey, paymentsAfterDate) => {
+
     const fetchChargesRecur = async (startAfterId = '', chargesAcc = []) => {
         updatePaymentsProgress(chargesAcc.length);
         const url = startAfterId === '' ? stripeUrlBase : stripeUrlBase + `&starting_after=${startAfterId}`;
@@ -30,6 +31,7 @@ const getPaymentData = async (stripeKey, paymentsAfterDate) => {
             return chargesAcc.concat(tidyPaymentData(chargesResponse.data));
         return fetchChargesRecur(chargesResponse.data.at(-1).id, chargesAcc.concat(tidyPaymentData(chargesResponse.data)));
     }
+    
     return await fetchChargesRecur();
 }
 
