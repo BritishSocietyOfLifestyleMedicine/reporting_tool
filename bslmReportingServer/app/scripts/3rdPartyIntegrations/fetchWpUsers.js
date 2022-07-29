@@ -26,7 +26,7 @@ const getWpToken = async (inputUsername, inputPassword) => {
 
 
 const getWpUserData = async token => {
-    const fetchWpUserRecur = async (resolve, reject, usersAcc = []) => {
+    const fetchWpUserRecur = async (usersAcc = []) => {
         updateUsersProgress(usersAcc.length);
         const response = await fetch(`https://bslm.org.uk/wp-json/wp/v2/users?per_page=100&offset=${usersAcc.length}`, {
             method: 'GET',
@@ -40,11 +40,11 @@ const getWpUserData = async token => {
         })
         if (!response) return;
         const json = await response.json();
-        if (json.hasOwnProperty('data') && json.data.status === 403) reject(appendErrMsg(json, 'Bad wordpress token'));
-        else if (usersAcc.length % 100 != 0) resolve(usersAcc.concat(tidyWpUsersList(json)));
-        else fetchWpUserRecur(resolve, reject, usersAcc.concat(tidyWpUsersList(json)));
+        if (json.hasOwnProperty('data') && json.data.status !== 200) throw appendErrMsg(json, 'Bad wordpress token');
+        else if (usersAcc.length % 100 != 0) return usersAcc.concat(tidyWpUsersList(json));
+        else return fetchWpUserRecur(usersAcc.concat(tidyWpUsersList(json)));
     }
-    return new Promise((resolve, reject) => fetchWpUserRecur(resolve, reject));
+    return await fetchWpUserRecur();
 }
 
 const tidyWpUsersList = userdata => userdata.map(user => ({

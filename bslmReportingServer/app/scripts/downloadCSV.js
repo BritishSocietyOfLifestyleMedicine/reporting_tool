@@ -85,33 +85,7 @@ const formatUserForCsv = user => ({
     bs_enrolled_courses: user.bs_enrolled_courses.map(course => course.name).join(', ')
 });
 
-
-// const formatBsCreateList = userList => userList.map(user => ({
-//     ...formatBaseBumUser(user),
-//     bum_create: `CREATE,${user.username.toLowerCase()},${user.username.toLowerCase()},${title(user.first_name)},${title(user.last_name)},BSLM1234,LEARNER,1,${user.email.toLowerCase()}`,
-// }))
-
-// const formatBsEnrollList = (userList, courseCode) => userList.map(user => ({
-//     ...formatBaseBumUser(user),
-//     bum_enroll: `ENROLL,${user.username.toLowerCase()},,LEARNER,${courseCode}`
-// }));
-
-// const formatBsCreateAndEnrollList = (userList, courseCode) => userList.map(user => ({
-//     ...formatBaseBumUser(user),
-//     bum_create: `CREATE,${user.username.toLowerCase()},${user.username.toLowerCase()},${title(user.first_name)},${title(user.last_name)},BSLM1234,LEARNER,1,${user.email.toLowerCase()}`,
-//     bum_enroll: `ENROLL,${user.username.toLowerCase()},,LEARNER,${courseCode}`
-// }));
-
-// const formatBaseBumUser = user => ({
-//     email: user.email,
-//     first_name: title(user.first_name),
-//     last_name: title(user.last_name),
-//     username: user.username
-// });
-
-
 const title = str => str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
 
-// const printCsvFullUserList = userList
 
 

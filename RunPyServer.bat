@@ -1,0 +1,6 @@
+@echo off
+
+start "" http://localhost:8000
+
+start python .\bslmReportingServer\reportingServer.py
+

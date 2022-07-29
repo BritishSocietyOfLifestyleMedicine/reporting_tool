@@ -10,12 +10,14 @@ const main = async () => {
     const storedCredentials = await fetchCreds();
     const initPromises = await Promise.all([
         getStoreFileList(),
-        waitForButton('getBsUsersBtn', getBsTokenEvent(storedCredentials.brightspaceAuth))
+        waitForButton('getBsUsersBtn', getBrightspaceToken, storedCredentials.brightspaceAuth),
+        waitForButton('getZoomDataBtn', getZoomToken, storedCredentials.zoomAuth)
     ]);
 
     //make login page reset for when proms fail
     const storeFileList = initPromises[0];
     const brightspaceToken = initPromises[1];
+    const zoomRefreshCode = initPromises[2];
 
     await waitForButton('getUsersBtn');
 
@@ -30,8 +32,9 @@ const main = async () => {
     const apiResponses = await Promise.all([
         getWpUsers(formData.wpUsername, formData.wpPassword),
         getPayments(storedCredentials.stripeAuth, stripeCheckDate),
-        getBrightspaceUsers(brightspaceToken)
-    ]).catch(err => showErrorInfo(err));
+        getBrightspaceUsers(brightspaceToken),
+        getZoomData(zoomRefreshCode, storedCredentials.zoomAuth)
+        ]).catch(err => showErrorInfo(err));
 
     if (apiResponses === undefined) return;
 

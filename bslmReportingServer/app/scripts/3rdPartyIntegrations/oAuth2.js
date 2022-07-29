@@ -13,32 +13,51 @@
  * @returns {Object} - The token object response containing the access_token, TTL, refresh_token, etc 
  */
 const getOAuthAccessToken = async (authUrl, tokenUrl, clientId, clientSecret, redirect_uri, extraAuthHeaders = []) => {
-
     const refreshCode = await requestOAuth(authUrl, clientId, redirect_uri, extraAuthHeaders).catch(err => { throw err });
-    const urlParams = new URLSearchParams([
-        ['grant_type', 'authorization_code'],
-        ['code', refreshCode],
-        ['redirect_uri', redirect_uri],
-        ['client_id', clientId]
-    ]);
+    const requestUrlParams = encodeUrlParams(getTokenRequestUrlParams(refreshCode, redirect_uri, clientId));
+    const requestHeaders = encodeHeaders(getTokenRequestHeaders(clientId, clientSecret));
+    return await oAuthFetchToken(tokenUrl, requestHeaders, requestUrlParams);
+}
 
-    const headers = new Headers([
-        ['Content-Type', 'application/x-www-form-urlencoded'],
-        ['Authorization', `Basic ${btoa(`${clientId}:${clientSecret}`)}`]
-    ]);
+const getOAuthAccessTokenReqs = (refreshCode, tokenUrl, clientId, clientSecret, redirect_uri) => {
+    const requestUrlParams = getTokenRequestUrlParams(refreshCode, redirect_uri, clientId);
+    const requestHeaders = getTokenRequestHeaders(clientId, clientSecret);
+    return {
+        requestUrlParams: requestUrlParams,
+        requestHeaders: requestHeaders,
+        tokenUrl: tokenUrl
+    }
+}
 
+const getTokenRequestUrlParams = (refreshCode, redirect_uri, clientId) => ({
+        grant_type: 'authorization_code',
+        code: refreshCode,
+        redirect_uri: redirect_uri,
+        client_id: clientId
+});
+
+const getTokenRequestHeaders = (clientId, clientSecret) => ({
+    Authorization: `Basic ${btoa(`${clientId}:${clientSecret}`)}`
+})
+
+const encodeHeaders = headersObj => new Headers(Object.entries(headersObj));
+
+const encodeUrlParams = urlParamsObj => new URLSearchParams(Object.entries(urlParamsObj));
+
+const oAuthFetchToken = async (tokenUrl, requestHeaders, requestUrlParams) => {
     const response = await fetch(tokenUrl, {
         method: 'POST',
-        headers: headers,
-        body: urlParams,
+        headers: requestHeaders,
+        body: requestUrlParams,
         redirect: 'follow'
     })
     const tokenObj = await response.json();
     if (response.status !== 200)
         throw appendErrMsg({ ...tokenObj, rawResponse: response }, 'Token failed to aquire');
-
     return tokenObj;
 }
+
+
 
 /**
  * Open a message window to the OAuth provider's website.  User can put in credentials and is redirected back to localhost
@@ -46,9 +65,9 @@ const getOAuthAccessToken = async (authUrl, tokenUrl, clientId, clientSecret, re
  * Look at getOAuthAccessToken() for details on function paramaters.  
  * @returns {String} - Refresh code to call token endpoint.   
  */
-const requestOAuth = async (authUrl, clientId, redirect_uri, extraHeaders) => {
+const requestOAuth = async (authUrl, clientId, redirect_uri, extraHeaders = []) => {
 
-    const url = getOAuth2Url(authUrl, clientId, redirect_uri, extraHeaders);
+    const url = getOAuthWindowUrl(authUrl, clientId, redirect_uri, extraHeaders);
 
     const authWindow = window.open(url,
         'MsgWindow', 'width=500,height=600');
@@ -81,7 +100,7 @@ const requestOAuth = async (authUrl, clientId, redirect_uri, extraHeaders) => {
  * Look at getOAuthAccessToken() for details on function paramaters. 
  * @returns {String} - the authUrl with the correct url paramaters appended
  */
-const getOAuth2Url = (authUrl, clientId, redirect_uri, extraHeaders) => {
+const getOAuthWindowUrl = (authUrl, clientId, redirect_uri, extraHeaders) => {
     const params = new URLSearchParams([
         ['response_type', 'code'],
         ['client_id', clientId],

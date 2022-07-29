@@ -1,8 +1,18 @@
 'use strict';
 
-const waitForButton = (buttonElementId, func = r => r()) => {
+const waitForButton = (buttonElementId, func = () => {}, params = '') => {
     const buttonElement = document.getElementById(buttonElementId);
-    return new Promise((resolve, reject) => buttonElement.addEventListener('click', () => func(resolve, reject)));
+
+    const wrapPromise = (resolve, reject) => {
+        try {
+            resolve(func(params))
+        } catch (err) {
+            reject(err);
+        }
+    }
+
+    return new Promise((resolve, reject) =>
+        buttonElement.addEventListener('click', () => wrapPromise(resolve, reject)));
 }
 
 const unixTsToDateStr = unixTs => unixTs == '' ? '' : new Date(unixTs * 1000).toLocaleDateString('en-GB');
