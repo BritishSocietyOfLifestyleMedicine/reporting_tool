@@ -33,7 +33,7 @@ const main = async () => {
         getWpUsers(formData.wpUsername, formData.wpPassword),
         getPayments(storedCredentials.stripeAuth, stripeCheckDate),
         getBrightspaceUsers(brightspaceToken),
-        getZoomData(zoomRefreshCode, storedCredentials.zoomAuth)
+        // getZoomData(zoomRefreshCode, storedCredentials.zoomAuth)
         ]).catch(err => showErrorInfo(err));
 
     if (apiResponses === undefined) return;
@@ -48,7 +48,7 @@ const main = async () => {
     const fullPaymentList = buildPaymentsList(storeFileList.payments, newPaymentsList);
     Object.freeze(fullPaymentList);
     //console.log(fullPaymentList);
-    const testfullPaymentList = new PaymentList({}).addPaymentData(storeFileList.payments, newPaymentsList);
+    const testfullPaymentList = new PaymentList({}).buildPaymentsList(storeFileList.payments, newPaymentsList);
     console.log(testfullPaymentList.payments);
 
     const userList = new UserList({}).addWpData(wpUsers, 'username').addPayments(fullPaymentList)
