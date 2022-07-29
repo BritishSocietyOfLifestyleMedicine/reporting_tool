@@ -8,7 +8,6 @@ const main = async () => {
 
     //add in loading symbol for this
     const storedCredentials = await fetchCreds();
-    console.log(storedCredentials)
     const initPromises = await Promise.all([
         getStoreFileList(),
         waitForButton('getBsUsersBtn', getBsTokenEvent(storedCredentials.brightspaceAuth))
@@ -45,6 +44,9 @@ const main = async () => {
     // move buildpaymentlist() to payment list model
     const fullPaymentList = buildPaymentsList(storeFileList.payments, newPaymentsList);
     Object.freeze(fullPaymentList);
+    //console.log(fullPaymentList);
+    const testfullPaymentList = new PaymentList({}).addPaymentData(storeFileList.payments, newPaymentsList);
+    console.log(testfullPaymentList.payments);
 
     const userList = new UserList({}).addWpData(wpUsers, 'username').addPayments(fullPaymentList)
         .addBrightspaceData(brightspaceUsers);
