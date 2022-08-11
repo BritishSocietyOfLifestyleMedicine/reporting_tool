@@ -12,7 +12,7 @@ const main = async () => {
     const initPromises = await Promise.all([
         getStoreFileList(),
         waitForButton('getBsUsersBtn', getBrightspaceToken, storedCredentials.brightspaceAuth),
-        waitForButton('getZoomDataBtn', getZoomToken, storedCredentials.zoomAuth)
+        // waitForButton('getZoomDataBtn', getZoomToken, storedCredentials.zoomAuth)
     ]);
 
     //make login page reset for when proms fail
@@ -34,7 +34,7 @@ const main = async () => {
         getWpUsers(formData.wpUsername, formData.wpPassword),
         getPayments(storedCredentials.stripeAuth, stripeCheckDate),
         getBrightspaceUsers(brightspaceToken),
-        getZoomData(zoomRefreshCode, storedCredentials.zoomAuth)
+        // getZoomData(zoomRefreshCode, storedCredentials.zoomAuth)
         ]).catch(err => showErrorInfo(err));
 
     if (apiResponses === undefined) return;
@@ -54,7 +54,7 @@ const main = async () => {
 
     console.log(userList.users);
 
-    updateStoreFile(storeFileList, userList, fullPaymentList);
+    const newStoreJson = updateStoreFile(storeFileList, userList, fullPaymentList);
 
     displayInfo(userList, fullPaymentList);
 
@@ -64,23 +64,25 @@ main();
 
 
 const showExistingData = async () => {
-    showLoadingScreen();
+    // showLoadingScreen();
     const storeFileList = await getStoreFileList();
-    Object.freeze(storeFileList);
 
-    console.log(storeFileList);
+    // console.log(storeFileList);
 
-    const lastStoredUserBuild = buildUserSnapShot(storeFileList.userDiffs);
+    // const lastStoredUserBuild = buildUserSnapShot(storeFileList.userDiffs);
 
     // const usersWithPayments = combinePayments(lastStoredUserBuild, storeFileList.payments);
     // Object.freeze(usersWithPayments);
 
-    const userList = new UserList({}).addWpData(lastStoredUserBuild, 'username').addPayments(storeFileList.payments);
+    // const userList = new UserList({}).addWpData(lastStoredUserBuild, 'username').addPayments(storeFileList.payments);
 
-    hideLoginBar();
-    displayInfo(userList, storeFileList.payments)
+//     hideLoginBar();
+//     displayInfo(userList, storeFileList.payments)
+
+    displayDashBoard(storeFileList);
+
 }
-
+// showExistingData();
 
 
 

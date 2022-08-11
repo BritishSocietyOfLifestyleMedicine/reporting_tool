@@ -13,7 +13,9 @@ const addElement = (parent, template) => {
             eventElement.addEventListener(el.type, el.function));
     });
     parent.appendChild(element);
-    return template.nodeReturn == '' ? null : element.getElementsByClassName(template.nodeReturn)[0];
+    const nodeReturn = template.nodeReturn == '' ? null : element.getElementsByClassName(template.nodeReturn)[0];
+    element.replaceWith(element.firstChild);
+    return nodeReturn
 }
 
 const userTemplate = (user, i) => {
@@ -174,4 +176,20 @@ const modalUserTemplate = user => {
         nodeReturn: ''
     }
 }
+
+const dashBoardTemplate = (width, height) => ({
+    html: `<canvas id="dashBoardCanvas" class="dashBoardCanvas" width="${width}px" height="${height}px"></canvas>`,
+    eventListeners: [],
+    nodeReturn: 'dashBoardCanvas'
+})
+
+const graphDataPointTemplate = (xPos, yPos, displayInfo) => ({
+    html: `<div class="graphDataPoint" style="left:${xPos}px; top:${yPos}px"></div>`,
+    eventListeners: [{
+        type: 'mouseover',
+        function: () => console.log(displayInfo),
+        className: 'graphDataPoint'
+    }],
+    nodeReturn: ''
+})
 
