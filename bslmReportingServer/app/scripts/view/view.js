@@ -18,7 +18,7 @@ const displayInfo = (userList, paymentList) => {
 
     getElement('downloadCsvBtn').onclick = () => {
         const selectedTable = getSelectedTable();
-        selectedTable == 'USERS_TABLE' ? downloadInfoCsv(userList.users, 'bslm_user_list') :
+        selectedTable == 'USERS_TABLE' ? downloadInfoCsv(userList.dataStoreFormat(), 'bslm_user_list') :
             downloadInfoCsv(paymentList, 'bslm_payment_history');
     }
 
@@ -37,6 +37,15 @@ const displayInfo = (userList, paymentList) => {
     });
 
     hideLoginBar();
+}
+
+
+const displayDashBoard = storeFileList => {
+
+    hideLoginPage();
+    showDashBoardPage();
+    drawGraphs(storeFileList);
+
 }
 
 

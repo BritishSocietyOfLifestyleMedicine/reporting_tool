@@ -2,6 +2,10 @@
 
 const getElement = id => document.getElementById(id);
 
+const hideLoginPage = () => getElement('loginPage').style.display = 'none';
+
+const showDashBoardPage = () => getElement('dashBoardWrapper').style.display = 'flex';
+
 const hideLoginBar = () => {
     getElement('loadingPage').style.display = 'none';
     getElement('pageWrapper').style.display = 'flex';
