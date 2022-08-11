@@ -19,16 +19,16 @@ class Payment {
         this.payment_status = payment_status;
     }
 
-    setNewPaymentAttributes = object => {
-        const newObj = new Payment({ ...this, ...object })
-        Object.freeze(newObj);
-        return newObj;
-    }
+    // setNewPaymentAttributes = object => {
+    //     const newObj = new Payment({ ...this, ...object })
+    //     Object.freeze(newObj);
+    //     return newObj;
+    // }
 
-    static newPayment = props => {
-        const newUser = new Payment(props);
-        Object.freeze(newUser);
-        return newUser;
-    }
+    // static newPayment = props => {
+    //     const newUser = new Payment(props);
+    //     Object.freeze(newUser);
+    //     return newUser;
+    // }
 
 }
