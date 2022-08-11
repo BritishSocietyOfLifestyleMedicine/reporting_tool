@@ -3,7 +3,7 @@
 // run function after data collection
 const updateStoreFile = async (storeFileList, newUserList, paymentList) => {
 
-    const lastStoredUserBuild = buildUserSnapShot(storeFileList.userDiffs);
+    const lastStoredUserBuild = buildLatestStoredSnapshot(storeFileList);
 
     const saveSafeUserList = newUserList.dataStoreFormat();
 
@@ -18,6 +18,7 @@ const updateStoreFile = async (storeFileList, newUserList, paymentList) => {
     console.log(newJsonStoreData);
 
     // writeToStoreFile(newJsonStoreData);
+    return newJsonStoreData;
 }
 
 const getStoreFileList = async () => {
@@ -114,40 +115,43 @@ const generateDiffs = (lastStoredUserBuild, userList) => {
 }
 
 /**
- * Takes list of changes from data store file and produces an up to date list of users
- * @param {Array} sfUserDiffList - List of all changes taken directly from data store file
- * @param {Date} date - Date that you want to build until
- * @returns List of users with all of the historic changes applied .
- *              i.e. the most recent (or up to provided date) saved user snapshot
+ * Applies the incrementUserSnapshot() function until the most recent snapshot has been aquired.
+ * @param {Object} storeFileList - The object from the store file
+ * @returns {Array} - The most up to date user snap shot built from all of the stored edits 
  */
-
-const buildUserSnapShot = (sfUserDiffList, date = new Date()) => {
-    if (!sfUserDiffList.length) return [];
-
-    // Recursive function to process each entry in the data store array - each entry is a user snapshot from a certain date
-    // Snapshot is the build list for the current data store entry
-    const buildSnapShotRec = (dataStore, accSnapShot = []) => {
-        if (!dataStore.length) return accSnapShot;
-
-        // combine the array from the removed users and the new users to be added
-        const additionsAndDeletions = [...removeUsers([...dataStore[0].deletions], accSnapShot), ...dataStore[0].additions];
-
-        // Recursive function to apply each edit to it's user account
-        const recApplyEdits = (edits, accEntry) => {
-            if (!edits.length) return accEntry;
-
-            //find the user object to apply the edits to
-            const user = accEntry.find(user => user.id === edits[0].id);
-            const editedUser = editObj(user, edits[0].userEditList);
-            // remove the old object from the array and insert the edited object
-            const newAccEntry = [...removeUser(user, accEntry), editedUser]
-            return recApplyEdits(edits.slice(1), newAccEntry)
-        }
-
-        // if date > suplied date then return, otherwise recursion
-        return buildSnapShotRec(dataStore.slice(1), recApplyEdits(dataStore[0].edits, additionsAndDeletions));
+const buildLatestStoredSnapshot = storeFileList => {
+    const buildSnapShotRec = (storeFileIndex = 0, accSnapShot = []) => {
+        if (storeFileIndex === storeFileList.userDiffs.length) return accSnapShot;
+        return buildSnapShotRec(storeFileIndex + 1, incrementUserSnapshot(storeFileList.userDiffs[storeFileIndex], accSnapShot));
     }
-    return buildSnapShotRec(sfUserDiffList);
+    return buildSnapShotRec();
+}
+
+/**
+ * Takes a list of users and a single entry in the store file and applies all of the edits to that list
+ * This function is seperate from buildLatestStoredSnapshot() so that it can be called individually for making
+ * graphs
+ * @param {Object} storeFileListEntry - Object containing the additions, deletions and edits for that date
+ * @param {Array} currentSnapShot - Array of users before the edits have been applied
+ * @returns {Array} - Array of users after the edits have been applied
+ */
+const incrementUserSnapshot = (storeFileListEntry, currentSnapShot) => {
+    // combine the array from the removed users and the new users to be added
+    const additionsAndDeletions = [
+        ...removeUsers([...storeFileListEntry.deletions], currentSnapShot),
+        ...storeFileListEntry.additions
+    ];
+    const recApplyEdits = (edits, accEntry) => {
+        if (!edits.length) return accEntry;
+
+        //find the user object to apply the edits to
+        const user = accEntry.find(user => user.id === edits[0].id);
+        const editedUser = editObj(user, edits[0].userEditList);
+        // remove the old object from the array and insert the edited object
+        const newAccEntry = [...removeUser(user, accEntry), editedUser]
+        return recApplyEdits(edits.slice(1), newAccEntry)
+    }
+    return recApplyEdits(storeFileListEntry.edits, additionsAndDeletions)
 }
 
 /**
