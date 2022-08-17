@@ -17,18 +17,26 @@ class UserList {
     }
 
     addPayments = paymentList => {
-        const recAddPayments = (accUserList = this.users, accPaymentsWithoutWpAccount = this.paymentsWithoutWpAccount, i = 0) => {
-            if (i === paymentList.length) return {
-                userArray: accUserList,
-                paymentsWithoutAccount: accPaymentsWithoutWpAccount
-            };
+        let accUserList = this.users;
+        let accPaymentsWithoutWpAccount = this.paymentsWithoutWpAccount;
+        for (let i = 0; i < paymentList.length; i++) {
+            if (i >= paymentList.length) return
+
+            if (paymentList[i].customer_id !== '') {
+                accPaymentsWithoutWpAccount = [...accPaymentsWithoutWpAccount, paymentList[i]];
+                continue;
+            }
 
             const matchingUsers = this.#findUser(
-                user => user.customer_id === paymentList[i].customer_id && paymentList[i].customer_id !== '' ||
-                    paymentList[i].receipt_email === user.username || paymentList[i].receipt_email === user.email, true);
+                user => user.customer_id === paymentList[i].customer_id ||
+                    paymentList[i].receipt_email === user.username ||
+                    paymentList[i].receipt_email === user.email, true
+            );
 
-            if (matchingUsers === undefined || !matchingUsers.length)
-                return recAddPayments(accUserList, [...accPaymentsWithoutWpAccount, paymentList[i]], i + 1);
+            if (matchingUsers === undefined || !matchingUsers.length) {
+                accPaymentsWithoutWpAccount = [...accPaymentsWithoutWpAccount, paymentList[i]];
+                continue;
+            }
 
             const recUpdateMatchingUsers = (j = 0, accMatchingUserList = accUserList) => {
                 if (j === matchingUsers.length) return accMatchingUserList;
@@ -39,9 +47,12 @@ class UserList {
                 return recUpdateMatchingUsers(j + 1,
                     arrayReplaceElement(accUserList, matchingUsers[j].user.setNewAttributes(updatedUser), matchingUsers[j].index))
             }
-            return recAddPayments(recUpdateMatchingUsers(), accPaymentsWithoutWpAccount, i + 1);
+            accUserList = recUpdateMatchingUsers();
         }
-        return UserList.newUserList(recAddPayments());
+        return UserList.newUserList({
+            userArray: accUserList,
+            paymentsWithoutAccount: accPaymentsWithoutWpAccount
+        });
     }
 
     addBrightspaceData = brightspaceData => {
@@ -73,19 +84,15 @@ class UserList {
     }
 
     #findUser = (predicate, findMultiple = false) => {
-        const recfindUser = (i = 0, accMatchList = []) => {
-
-            if (!this.users.length || i === this.users.length) {
-                if (findMultiple) return accMatchList;
-                if (accMatchList.length > 1) throw newErrMsg('Too many items found');
-                return accMatchList[0];
-            }
-            if (predicate(this.users[i]))
-                return recfindUser(i + 1, [...accMatchList, { index: i, user: this.users[i] }]);
-
-            return recfindUser(i + 1, accMatchList);
-        }
-        return recfindUser();
+        
+        const matchingUsers = this.users.filter(predicate).map((user, i) => ({
+            index: i, 
+            user: user
+        }));
+       
+        if (findMultiple) return matchingUsers;
+        if (matchingUsers.length > 1) throw newErrMsg('Too many items found');
+        return matchingUsers[0];
     }
 
     static newUserList = ({ userArray = [], paymentsWithoutAccount = [] }) => {
@@ -95,6 +102,9 @@ class UserList {
     }
 
     dataStoreFormat = () => this.users.map(user => user.saveFormat());
+
+
+
 
 }
 

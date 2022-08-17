@@ -21,8 +21,6 @@ const getBrightspaceToken = async storedBsCreds => {
             storedBsCreds.oauthClientSecret, storedBsCreds.oauthRedirectUri, brightSpaceScopeHeader);
 
         showAcquiredBsToken();
-        // localDataStore.setData({brightspaceToken: tokenObj});
-        // resolve(tokenObj);
         return tokenObj;
     } catch (err) {
         showBsLoginButton();

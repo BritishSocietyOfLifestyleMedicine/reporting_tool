@@ -50,7 +50,12 @@ const main = async () => {
     Object.freeze(fullPaymentList);
     //console.log(fullPaymentList);
     const testfullPaymentList = new PaymentList({}).buildPaymentsList(storeFileList.payments, newPaymentsList);
-    console.log(testfullPaymentList.payments);
+
+//const justWPUsers = new UserList({}).addWpData(wpUsers, 'username');
+  //  const testFindUser = justWPUsers.testFindUser(user => user.username === 'maxaitkenhead', true);
+ //   console.log(testFindUser);
+
+   // return;
 
     const userList = new UserList({}).addWpData(wpUsers, 'username').addPayments(fullPaymentList)
         .addBrightspaceData(brightspaceUsers);
@@ -88,12 +93,6 @@ const showExistingData = async () => {
 
 }
 // showExistingData();
-
-
-
-
-
-
 
 
 
