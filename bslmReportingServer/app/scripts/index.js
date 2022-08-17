@@ -9,14 +9,12 @@ const main = async () => {
     //add in loading symbol for this
     const storedCredentials = await fetchCreds();
     const initPromises = await Promise.all([
-        getStoreFileList(),
         waitForButton('getBsUsersBtn', getBrightspaceToken, storedCredentials.brightspaceAuth),
         // waitForButton('getZoomDataBtn', getZoomToken, storedCredentials.zoomAuth)
     ]);
 
     //make login page reset for when proms fail
-    const storeFileList = initPromises[0];
-    const brightspaceToken = initPromises[1];
+    const brightspaceToken = initPromises[0];
     const zoomRefreshCode = initPromises[2];
 
     await waitForButton('getUsersBtn');
@@ -26,15 +24,18 @@ const main = async () => {
     if (formData.fail) return;
 
     showLoadingScreen();
-
-    const stripeCheckDate = storeFileList.payments.length ? storeFileList.payments[0].date_created : null;
+    const storeFileList = await getStoreFileList();
+    
+    // const stripeCheckDate = storeFileList.payments.length ? storeFileList.payments[0].date_created : null;
 
     const apiResponses = await Promise.all([
         getWpUsers(formData.wpUsername, formData.wpPassword),
-        getPayments(storedCredentials.stripeAuth, stripeCheckDate),
+        getPayments(storedCredentials.stripeAuth, storeFileList.payments[0].date_created),
         getBrightspaceUsers(brightspaceToken),
         // getZoomData(zoomRefreshCode, storedCredentials.zoomAuth)
         ]).catch(err => showErrorInfo(err));
+
+    console.log(apiResponses);
 
     if (apiResponses === undefined) return;
 
@@ -58,7 +59,9 @@ const main = async () => {
 
     const newStoreJson = updateStoreFile(storeFileList, userList, fullPaymentList);
 
-    displayInfo(userList, fullPaymentList);
+    displayInfo(userList, fullPaymentList, newStoreJson);
+
+    // displayDashBoard(userList, fullPaymentList, newStoreJson);
 
 }
 main();

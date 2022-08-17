@@ -6,6 +6,8 @@ const BsTokenUrl = 'https://auth.brightspace.com/core/connect/token';
 const getCourse = orgUnitId => coursesToGet.find(course => course.orgUnitId == orgUnitId);
 
 const getBrightspaceUsers = async (bsToken) => {
+    console.log(bsToken);
+
     const bsResponseLists = await getBrightspaceData(bsToken.access_token);
     const bsUserList = combineBsLists(bsResponseLists);
     return bsUserList;
@@ -49,6 +51,7 @@ const getBrightspaceData = async token => {
 }
 
 const brightspaceFetch = async (authHeader, url, promiseLabel) => {
+
     const recFetch = async (acc, bookmark = 0) => {
 
         const response = await fetch(url + bookmark, {

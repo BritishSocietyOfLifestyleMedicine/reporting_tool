@@ -6,40 +6,69 @@ const drawGraphs = storeFileList => {
         y: dataPoint.amount
     }))
 
-    // addFullMemberGraph(getDataPoints);
-    // addGraphNotLoggedInMembers(getDataPoints);
+    addFullMemberGraph(getDataPoints);
+    addLegacyMemberGraph(getDataPoints);
+    addStudentMemberGraph(getDataPoints);
+    addWpCertMemberGraph(getDataPoints);
+    addGraphNotLoggedInMembers(getDataPoints);
     addGraphWeeklyActiveUsers(getDataPoints);
 }
 
 const addFullMemberGraph = (getDataPoints) => {
-    const title = 'Number of Full Members Over Time';
-    const width = 500;
+    const title = 'Number of Paid Members Over Time';
+    const width = 600;
     const height = 300;
     const limits = {
-        max: 1050,
-        min: 900
+        max: 1480,
+        min: 1320
     }
-    const predicate = user => user.membership_type === 'Full Member';
+    const predicate = user => isPaidMember(user);
     const dataPoints = getDataPoints(predicate);
     addGraph(dataPoints, title, width, height, limits)
 }
 
-const addLegacyMemberGraph = (getDataPoints) => {
-    const title = 'Number of Legacy Members Over Time';
-    const width = 500;
+const addStudentMemberGraph = (getDataPoints) => {
+    const title = 'Number of Student Members Over Time';
+    const width = 600;
     const height = 300;
     const limits = {
-        max: 1050,
-        min: 900
+        max: 200,
+        min: 50
+    }
+    const predicate = user => user.membership_type === 'Student Member';
+    const dataPoints = getDataPoints(predicate);
+    addGraph(dataPoints, title, width, height, limits);
+}
+
+const addWpCertMemberGraph = (getDataPoints) => {
+    const title = 'Number of Certificates Over Time';
+    const width = 600;
+    const height = 300;
+    const limits = {
+        max: 480,
+        min: 370
+    }
+    const predicate = user => user.certificate_type !== '';
+    const dataPoints = getDataPoints(predicate);
+    addGraph(dataPoints, title, width, height, limits);
+}
+
+const addLegacyMemberGraph = (getDataPoints) => {
+    const title = 'Number of Legacy Members Over Time';
+    const width = 600;
+    const height = 300;
+    const limits = {
+        max: 1500,
+        min: 500
     }
     const predicate = user => user.membership_type === 'Full Member';
     const dataPoints = getDataPoints(predicate);
-    addGraph(dataPoints, title, width, height);
+    addGraph(dataPoints, title, width, height, limits);
 }
 
 const addGraphNotLoggedInMembers = (getDataPoints) => {
     const title = `Number of paid users who haven't logged in within 6 months`;
-    const width = 500;
+    const width = 600;
     const height = 300;
     const limits = {
         max: 500,
@@ -53,8 +82,8 @@ const addGraphNotLoggedInMembers = (getDataPoints) => {
 
 const addGraphWeeklyActiveUsers = (getDataPoints) => {
     const title = `Number of active weekly users`;
-    const width = 1000;
-    const height = 600;
+    const width = 600;
+    const height = 300;
     const limits = {
         max: 500,
         min: 300

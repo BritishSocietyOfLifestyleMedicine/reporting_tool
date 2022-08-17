@@ -1,15 +1,18 @@
 'use strict';
 
+const dashboardGraphWrapper = getElement('dashboardGraphWrapper');
 
 const addGraph = (dataPoints, title, width, height, limits) => {
     const graphSettings = getGraphSettings(width, height);
     const graphData = getGraphData(dataPoints, graphSettings, limits);
-    const canvas = addElement(dashBoardWrapper, dashBoardTemplate(width, height));
+    const canvas = addElement(dashboardGraphWrapper, dashBoardTemplate(width, height));
     const ctx = canvas.getContext('2d');
     drawAxis(ctx, graphSettings);
     populateXAxis(graphData.axesRange.x, ctx, graphSettings);
     populateYAxis(graphData.axesRange.y, ctx, graphSettings);
-    drawLineGraph(graphData, ctx, canvas);
+    // drawLineGraph(graphData, ctx, canvas);
+    // ;
+    window.setTimeout(() => drawLineGraph(graphData, ctx, canvas), 50);
     drawTitle(title, graphSettings, ctx);
 }
 
@@ -160,7 +163,7 @@ const drawLineGraph = (gd, ctx, canvas) => {
     ctx.moveTo(gd.dataPoints[0].pixelXPos, gd.dataPoints[0].pixelYPos);
     gd.dataPoints.forEach(dp => {
         ctx.lineTo(dp.pixelXPos, dp.pixelYPos);
-        addElement(dashBoardWrapper, graphDataPointTemplate(absX(canvas, dp.pixelXPos), absY(canvas, dp.pixelYPos), dp));
+        addElement(dashboardGraphWrapper, graphDataPointTemplate(absX(canvas, dp.pixelXPos), absY(canvas, dp.pixelYPos), dp));
     });
     ctx.stroke();
 }

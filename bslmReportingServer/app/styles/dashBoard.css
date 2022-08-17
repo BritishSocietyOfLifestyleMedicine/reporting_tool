@@ -4,9 +4,52 @@
     align-items: center;
 }
 
-#dashBoardCanvas {
-    border: 3px solid black;
+#dashboardNav {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    width: 100%;
+    height: 75px;
+    background-color: rgb(202, 87, 87);
+}
 
+#navTitle {
+    width: 33%;
+    text-align: center;
+    color: white;
+}
+
+.dashboardBtnWrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    width:33%;
+    justify-content: end;
+}
+
+.navBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    width: 40%;
+    /* height: 80%; */
+    text-align: center;
+    border: 2px solid white;
+    color: white;
+    border-radius: 5px;
+    margin: 5% 10%;
+}
+
+#dashboardGraphWrapper {
+    width: 90%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+#dashBoardCanvas {
+    border: 1px solid black;
+    margin: 20px;
 }
 
 .graphDataPoint {

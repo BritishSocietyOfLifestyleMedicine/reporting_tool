@@ -19,10 +19,7 @@ const getPaymentData = async (stripeKey, paymentsAfterDate) => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${stripeKey}`
             }
-        }).catch(err => {
-            reject(appendErrMsg(err, 'Bad payments fetch'));
-            return false;
-        })
+        }).catch(err => { throw appendErrMsg(err, 'Bad payments fetch') })
         if (!response) return;
         const chargesResponse = await response.json();
         if (chargesResponse.hasOwnProperty('error')) throw appendErrMsg(chargesResponse.error, 'Incorrect Stripe key');

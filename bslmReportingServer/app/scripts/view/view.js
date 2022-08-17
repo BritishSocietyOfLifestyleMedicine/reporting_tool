@@ -1,6 +1,6 @@
 'use strict';
 
-const displayInfo = (userList, paymentList) => {
+const displayInfo = (userList, paymentList, storeJson) => {
 
     console.log(userList.users);
 
@@ -40,12 +40,12 @@ const displayInfo = (userList, paymentList) => {
 }
 
 
-const displayDashBoard = storeFileList => {
+const displayDashBoard = (userList, paymentList, storeFileList) => {
 
     hideLoginPage();
     showDashBoardPage();
     drawGraphs(storeFileList);
-
+    
 }
 
 
