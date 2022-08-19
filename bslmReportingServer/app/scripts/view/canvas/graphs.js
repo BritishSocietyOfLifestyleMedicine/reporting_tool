@@ -89,7 +89,6 @@ const addGraphWeeklyActiveUsers = (getDataPoints) => {
         min: 300
     }
     const date2WeeksAgo = new Date(new Date().setDate(new Date().getDate() - 100));
-    console.log(date2WeeksAgo);
     const predicate = user => user.date_last_logged_in > date2WeeksAgo;
     const dataPoints = getDataPoints(predicate);
     addGraph(dataPoints, title, width, height);

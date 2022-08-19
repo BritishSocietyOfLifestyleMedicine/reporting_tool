@@ -8,6 +8,7 @@ const main = async () => {
 
     //add in loading symbol for this
     const storedCredentials = await fetchCreds();
+
     const initPromises = await Promise.all([
         waitForButton('getBsUsersBtn', getBrightspaceToken, storedCredentials.brightspaceAuth),
         // waitForButton('getZoomDataBtn', getZoomToken, storedCredentials.zoomAuth)
@@ -35,13 +36,13 @@ const main = async () => {
         // getZoomData(zoomRefreshCode, storedCredentials.zoomAuth)
         ]).catch(err => showErrorInfo(err));
 
-    console.log(apiResponses);
-
     if (apiResponses === undefined) return;
 
     const wpUsers = apiResponses[0];
     const newPaymentsList = apiResponses[1];
     const brightspaceUsers = apiResponses[2];
+
+    console.log(brightspaceUsers);
 
     setFormData(formData);
 
@@ -51,20 +52,15 @@ const main = async () => {
     //console.log(fullPaymentList);
     const testfullPaymentList = new PaymentList({}).buildPaymentsList(storeFileList.payments, newPaymentsList);
 
-//const justWPUsers = new UserList({}).addWpData(wpUsers, 'username');
-  //  const testFindUser = justWPUsers.testFindUser(user => user.username === 'maxaitkenhead', true);
- //   console.log(testFindUser);
-
-   // return;
-
     const userList = new UserList({}).addWpData(wpUsers, 'username').addPayments(fullPaymentList)
         .addBrightspaceData(brightspaceUsers);
 
     console.log(userList.users);
 
     const newStoreJson = updateStoreFile(storeFileList, userList, fullPaymentList);
+    console.log(newStoreJson);
 
-    displayInfo(userList, fullPaymentList, newStoreJson);
+    // displayInfo(userList, fullPaymentList, newStoreJson);
 
     // displayDashBoard(userList, fullPaymentList, newStoreJson);
 
@@ -76,10 +72,10 @@ main();
 const showExistingData = async () => {
     // showLoadingScreen();
     const storeFileList = await getStoreFileList();
+    console.log(storeFileList)
+    const lastStoredUserBuild = buildLatestStoredSnapshotTest(storeFileList);
 
-    // console.log(storeFileList);
-
-    // const lastStoredUserBuild = buildUserSnapShot(storeFileList.userDiffs);
+    console.log(lastStoredUserBuild);
 
     // const usersWithPayments = combinePayments(lastStoredUserBuild, storeFileList.payments);
     // Object.freeze(usersWithPayments);
@@ -89,10 +85,11 @@ const showExistingData = async () => {
 //     hideLoginBar();
 //     displayInfo(userList, storeFileList.payments)
 
-    displayDashBoard(storeFileList);
+    // displayDashBoard({
+    //     storeFileList: storeFileList
+    // });
 
 }
 // showExistingData();
-
 
 

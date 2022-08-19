@@ -1,7 +1,7 @@
 "use strict";
 
 // run function after data collection
-const updateStoreFile = async (storeFileList, newUserList, paymentList) => {
+const updateStoreFile = (storeFileList, newUserList, paymentList) => {
 
     const lastStoredUserBuild = buildLatestStoredSnapshot(storeFileList);
 
@@ -17,7 +17,7 @@ const updateStoreFile = async (storeFileList, newUserList, paymentList) => {
 
     console.log(newJsonStoreData);
 
-    writeToStoreFile(newJsonStoreData);
+    // writeToStoreFile(newJsonStoreData);
     return newJsonStoreData;
 }
 
@@ -125,6 +125,15 @@ const buildLatestStoredSnapshot = storeFileList => {
         return buildSnapShotRec(storeFileIndex + 1, incrementUserSnapshot(storeFileList.userDiffs[storeFileIndex], accSnapShot));
     }
     return buildSnapShotRec();
+}
+
+const buildLatestStoredSnapshotTest = storeFileList => {
+    return storeFileList.userDiffs.reduce((a, b) => incrementUserSnapshot(b, a), []);
+    // const buildSnapShotRec = (storeFileIndex = 0, accSnapShot = []) => {
+    //     if (storeFileIndex === storeFileList.userDiffs.length) return accSnapShot;
+    //     return buildSnapShotRec(storeFileIndex + 1, incrementUserSnapshot(storeFileList.userDiffs[storeFileIndex], accSnapShot));
+    // }
+    // return buildSnapShotRec();
 }
 
 /**

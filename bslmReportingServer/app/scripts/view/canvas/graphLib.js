@@ -30,7 +30,6 @@ const getGraphData = (dataPoints, graphSettings, limits) => {
 
 const setDataPointPosition = (dataPoint, gs, axesRange) => {
     const axisSpacing = axis => gs.axesLength[axis] / axesRange[axis].length;
-    console.log(axisSpacing('y'));
     const recFindPos = (axis, accPos = 0, i = 0) => {
         if (dataPoint[axis] <= axesRange[axis][i]) return accPos;
         return recFindPos(axis, accPos + axisSpacing(axis), i + 1);
@@ -154,7 +153,6 @@ const getIntIncrement = (axisPixelLength, axisRange) => {
 const drawTitle = (graphTitle, gs, ctx) => {
     ctx.font = '16px serif';
     ctx.textAlign = 'center';
-    console.log(gs.width/2);
     ctx.fillText(graphTitle, gs.width/2, 20);
 }
 

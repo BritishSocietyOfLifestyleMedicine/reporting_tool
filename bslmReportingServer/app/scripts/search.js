@@ -24,9 +24,6 @@ const findListsOfInterest = userList => {
 
     console.log(usersEnrolledInOverviewCourse);
 
-    // console.log(findUsersSharingPhoneNumber(userList));
-    // console.log(userList.map(user => [user.share_phone_number, user.email]));
-    // https://vimeo.com/727737123
     return [
         {
             name: 'Dodgy Users',
