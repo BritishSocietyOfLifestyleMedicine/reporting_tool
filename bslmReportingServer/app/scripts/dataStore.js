@@ -13,9 +13,7 @@ const updateStoreFile = (storeFileList, newUserList, paymentList) => {
         return;
     }
 
-    const newJsonStoreData = buildStoreJson(storeFileList.userDiffs, newUserDiffs, paymentList);
-
-    console.log(newJsonStoreData);
+    const newJsonStoreData = buildStoreJson(storeFileList.userDiffs, newUserDiffs, paymentList.payments);
 
     // writeToStoreFile(newJsonStoreData);
     return newJsonStoreData;
@@ -127,14 +125,8 @@ const buildLatestStoredSnapshot = storeFileList => {
     return buildSnapShotRec();
 }
 
-const buildLatestStoredSnapshotTest = storeFileList => {
-    return storeFileList.userDiffs.reduce((a, b) => incrementUserSnapshot(b, a), []);
-    // const buildSnapShotRec = (storeFileIndex = 0, accSnapShot = []) => {
-    //     if (storeFileIndex === storeFileList.userDiffs.length) return accSnapShot;
-    //     return buildSnapShotRec(storeFileIndex + 1, incrementUserSnapshot(storeFileList.userDiffs[storeFileIndex], accSnapShot));
-    // }
-    // return buildSnapShotRec();
-}
+const buildLatestStoredSnapshotTest = storeFileList => 
+    storeFileList.userDiffs.reduce((a, b) => incrementUserSnapshot(b, a), []);
 
 /**
  * Takes a list of users and a single entry in the store file and applies all of the edits to that list
@@ -161,18 +153,6 @@ const incrementUserSnapshot = (storeFileListEntry, currentSnapShot) => {
         return recApplyEdits(edits.slice(1), newAccEntry)
     }
     return recApplyEdits(storeFileListEntry.edits, additionsAndDeletions)
-}
-
-/**
- * Removes any overlap between new and old payments and combines into one list
- * @param {Array} storeFileListPayments - List of payments already stored
- * @param {Array} downloadedPaymentList - List of new payments
- * @returns {Array} - Complete payment list
- */
-const buildPaymentsList = (storeFileListPayments, downloadedPaymentList) => {
-    if (!storeFileListPayments.length) return downloadedPaymentList;
-    const newPaymentList = downloadedPaymentList.filter(payment => payment.date_created > storeFileListPayments[0].date_created)
-    return [...newPaymentList, ...storeFileListPayments];
 }
 
 /**

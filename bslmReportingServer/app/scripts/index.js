@@ -42,30 +42,24 @@ const main = async () => {
     const newPaymentsList = apiResponses[1];
     const brightspaceUsers = apiResponses[2];
 
-    console.log(brightspaceUsers);
-
     setFormData(formData);
 
-    // move buildpaymentlist() to payment list model
-    const fullPaymentList = buildPaymentsList(storeFileList.payments, newPaymentsList);
-    Object.freeze(fullPaymentList);
-    //console.log(fullPaymentList);
-    const testfullPaymentList = new PaymentList({}).buildPaymentsList(storeFileList.payments, newPaymentsList);
+    const paymentList = new PaymentList({}).buildPaymentsList(storeFileList.payments, newPaymentsList);
 
-    const userList = new UserList({}).addWpData(wpUsers, 'username').addPayments(fullPaymentList)
+    const userList = new UserList({}).addWpData(wpUsers, 'username').addPayments(paymentList)
         .addBrightspaceData(brightspaceUsers);
 
     console.log(userList.users);
 
-    const newStoreJson = updateStoreFile(storeFileList, userList, fullPaymentList);
+    const newStoreJson = updateStoreFile(storeFileList, userList, paymentList); 
     console.log(newStoreJson);
 
     // displayInfo(userList, fullPaymentList, newStoreJson);
 
-    // displayDashBoard(userList, fullPaymentList, newStoreJson);
+    displayDashBoard(userList, fullPaymentList, newStoreJson);
 
 }
-main();
+// main();
 
 
 
@@ -90,6 +84,6 @@ const showExistingData = async () => {
     // });
 
 }
-// showExistingData();
+showExistingData();
 
 
