@@ -40,7 +40,7 @@ const displayInfo = (userList, paymentList, storeJson) => {
 }
 
 
-const displayDashBoard = ({userList = 'offline', paymentList = 'offline', storeFileList}) => {
+const displayDashBoard = (userList, paymentList, storeFileList) => {
     hideLoginPage();
     showDashBoardPage();
     drawGraphs(storeFileList);

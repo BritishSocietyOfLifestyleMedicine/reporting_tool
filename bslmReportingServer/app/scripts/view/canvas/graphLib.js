@@ -2,6 +2,14 @@
 
 const dashboardGraphWrapper = getElement('dashboardGraphWrapper');
 
+/**
+ * Top level function for adding graphs
+ * @param {Array[Obj]} dataPoints - Array of data points, each contains an x and y value.  X is normally time and Y is the thing being measured
+ * @param {String} title - 
+ * @param {*} width 
+ * @param {*} height 
+ * @param {*} limits 
+ */
 const addGraph = (dataPoints, title, width, height, limits) => {
     const graphSettings = getGraphSettings(width, height);
     const graphData = getGraphData(dataPoints, graphSettings, limits);
@@ -11,7 +19,6 @@ const addGraph = (dataPoints, title, width, height, limits) => {
     populateXAxis(graphData.axesRange.x, ctx, graphSettings);
     populateYAxis(graphData.axesRange.y, ctx, graphSettings);
     // drawLineGraph(graphData, ctx, canvas);
-    // ;
     window.setTimeout(() => drawLineGraph(graphData, ctx, canvas), 50);
     drawTitle(title, graphSettings, ctx);
 }

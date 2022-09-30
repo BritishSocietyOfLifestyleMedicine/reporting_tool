@@ -1,5 +1,12 @@
 "use strict";
 
+/*
+    Datastore.js flow.  
+    Take the current saved datastore and build the most recent user build from it (the list of users that was downloaded last time the program ran)
+    Find the differences between the recent user build and the user data that gets downloaded
+    Save those differences in the datastore
+*/
+
 // run function after data collection
 const updateStoreFile = (storeFileList, newUserList, paymentList) => {
 
@@ -71,6 +78,7 @@ const tidyStoreJson = obj => {
     return recConvertPropsToDate(Object.entries(obj), obj);
 }
 
+
 /**
  * 
  * @param {Array} arr 
@@ -80,6 +88,8 @@ const tidyStoreJson = obj => {
  * Replaces an element in an array immutably.  Can also be used to add an element to the array.  
  */
 const arrayReplaceElement = (arr, element, i) => [...arr.slice(0, i), element, ...arr.slice(i + 1)];
+
+
 
 /**
  * Finds the differences between the last stored build and the new user list
@@ -186,6 +196,7 @@ const editObj = (obj, edits) => {
     // magical helper function which immuntably removes a prop from an object
     // ngl I have no idea how this works - something to do with dynamic destructuring 
     const removePropery = (prop, { [prop]: exclProp, ...rest }) => rest;
+
 
     // Recursive function to apply each edit
     const recEditObj = (edits, accObj) => {

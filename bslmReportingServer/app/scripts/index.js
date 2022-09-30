@@ -24,16 +24,15 @@ const main = async () => {
     const formData = validateLoginForm();
     if (formData.fail) return;
 
-    showLoadingScreen();
+    // showLoadingScreen();
     const storeFileList = await getStoreFileList();
     
-    // const stripeCheckDate = storeFileList.payments.length ? storeFileList.payments[0].date_created : null;
-
     const apiResponses = await Promise.all([
         getWpUsers(formData.wpUsername, formData.wpPassword),
         getPayments(storedCredentials.stripeAuth, storeFileList.payments[0].date_created),
         getBrightspaceUsers(brightspaceToken),
         // getZoomData(zoomRefreshCode, storedCredentials.zoomAuth)
+        // campaign monitor 
         ]).catch(err => showErrorInfo(err));
 
     if (apiResponses === undefined) return;
@@ -52,17 +51,17 @@ const main = async () => {
     //console.log(fullPaymentList);
     const testfullPaymentList = new PaymentList({}).buildPaymentsList(storeFileList.payments, newPaymentsList);
 
-    const userList = new UserList({}).addWpData(wpUsers, 'username').addPayments(fullPaymentList)
+    const userList = new UserList({}).addWpData(wpUsers, 'username').addPayments(paymentList) //add all data together for single list of users
         .addBrightspaceData(brightspaceUsers);
 
     console.log(userList.users);
 
-    const newStoreJson = updateStoreFile(storeFileList, userList, fullPaymentList);
+    const newStoreJson = updateStoreFile(storeFileList, userList, paymentList);  // update the store file with new payment and user data
     console.log(newStoreJson);
 
-    // displayInfo(userList, fullPaymentList, newStoreJson);
+    displayInfo(userList, paymentList.payments, newStoreJson);
 
-    // displayDashBoard(userList, fullPaymentList, newStoreJson);
+    // displayDashBoard(userList, paymentList, newStoreJson);
 
 }
 main();
@@ -70,12 +69,14 @@ main();
 
 
 const showExistingData = async () => {
-    // showLoadingScreen();
+    showLoadingScreen();
     const storeFileList = await getStoreFileList();
     console.log(storeFileList)
     const lastStoredUserBuild = buildLatestStoredSnapshotTest(storeFileList);
+    const paymentsList = storeFileList.payments;
+    displayDashBoard(lastStoredUserBuild, paymentsList, storeFileList);
 
-    console.log(lastStoredUserBuild);
+    // console.log(lastStoredUserBuild);
 
     // const usersWithPayments = combinePayments(lastStoredUserBuild, storeFileList.payments);
     // Object.freeze(usersWithPayments);

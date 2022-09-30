@@ -2,9 +2,29 @@
 
 const getElement = id => document.getElementById(id);
 
-const hideLoginPage = () => getElement('loginPage').style.display = 'none';
+
+
+const showElement = elementId => getElement(elementId).style.display = 'flex';
+
+const hideElement = elementId => getElement(elementId).style.display = 'none';
+
+const showLoginPage = () => {
+    hideElement('loadingPage');
+    showElement('loginPage');
+}
 
 const showDashBoardPage = () => getElement('dashBoardWrapper').style.display = 'flex';
+
+
+const showUsersPage = () => {
+    showElement('')
+    // hideLoginPage();
+    // getElement('loadingPage').style.display = 'flex';
+}
+
+
+const hideLoginPage = () => getElement('loginPage').style.display = 'none';
+
 
 const hideLoginBar = () => {
     getElement('loadingPage').style.display = 'none';
@@ -19,15 +39,8 @@ const showProgress = type => {
 
 }
 
-const showLoadingScreen = () => {
-    getElement('loginPage').style.display = 'none';
-    getElement('loadingPage').style.display = 'flex';
-}
 
-const showLoginPage = () => {
-    getElement('loadingPage').style.display = 'none';
-    getElement('loginPage').style.display = 'flex';
-}
+
 
 const showErrorInfo = err => {
     getElement('showErrorInfo').style.display = 'flex';

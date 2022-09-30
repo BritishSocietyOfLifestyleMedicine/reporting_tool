@@ -11,8 +11,7 @@ const waitForButton = (buttonElementId, func = () => { }, params = '') => {
         }
     }
 
-    return new Promise((resolve, reject) =>
-        buttonElement.addEventListener('click', () => wrapPromise(resolve, reject)));
+    return new Promise((resolve, reject) => buttonElement.addEventListener('click', () => wrapPromise(resolve, reject)));
 }
 
 const unixTsToDateStr = unixTs => unixTs == '' ? '' : new Date(unixTs * 1000).toLocaleDateString('en-GB');
