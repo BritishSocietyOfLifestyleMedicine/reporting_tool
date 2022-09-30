@@ -41,15 +41,9 @@ const main = async () => {
     const newPaymentsList = apiResponses[1];
     const brightspaceUsers = apiResponses[2];
 
-    console.log(brightspaceUsers);
-
     setFormData(formData);
 
-    // move buildpaymentlist() to payment list model
-    const fullPaymentList = buildPaymentsList(storeFileList.payments, newPaymentsList);
-    Object.freeze(fullPaymentList);
-    //console.log(fullPaymentList);
-    const testfullPaymentList = new PaymentList({}).buildPaymentsList(storeFileList.payments, newPaymentsList);
+    const paymentList = new PaymentList({}).buildPaymentsList(storeFileList.payments, newPaymentsList);
 
     const userList = new UserList({}).addWpData(wpUsers, 'username').addPayments(paymentList) //add all data together for single list of users
         .addBrightspaceData(brightspaceUsers);
@@ -64,7 +58,7 @@ const main = async () => {
     // displayDashBoard(userList, paymentList, newStoreJson);
 
 }
-main();
+// main();
 
 
 
@@ -91,6 +85,6 @@ const showExistingData = async () => {
     // });
 
 }
-// showExistingData();
+showExistingData();
 
 
